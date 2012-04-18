@@ -1,0 +1,28 @@
+inherit mate
+
+
+PATCH_URI="1.2.0-gmodule.patch"
+
+DIFF_EXCLUDES="*.service"
+
+CYGCONF_ARGS="--libexecdir=/usr/bin"
+
+src_install() {
+	cd ${B}
+	cyginstall service_DATA=
+
+	# do not install the DBus service file because multiple programs
+	# can provide org.freedesktop.Notifications (e.g. gnome-shell,
+	# GNOME notification-daemon, Ubuntu notify-osd, XFCE notifyd)
+	# but only one can run at a given time.  The supported solution is
+	# for none of them to register for DBus autostart, but leave the
+	# session manager to launch the service provider for the given desktop.
+	dodir /etc/xdg/autostart
+	cat > ${D}/etc/xdg/autostart/${PN}.desktop <<_EOF
+[Desktop Entry]
+Type=Application
+Name=MATE Notification Daemon
+Exec=mate-notification-daemon
+OnlyShowIn=MATE;
+_EOF
+}
