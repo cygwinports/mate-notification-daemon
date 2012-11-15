@@ -51,6 +51,24 @@
  		}
  
  		g_free(engine);
+--- origsrc/mate-notification-daemon-1.4.0/src/themes/coco/Makefile.am	2012-07-05 13:29:58.000000000 -0500
++++ src/mate-notification-daemon-1.4.0/src/themes/coco/Makefile.am	2012-11-15 01:31:10.562783700 -0600
+@@ -5,5 +5,5 @@ engine_LTLIBRARIES = libcoco.la
+ 
+ libcoco_la_SOURCES = coco-theme.c
+ 
+-libcoco_la_LDFLAGS = -module -avoid-version
++libcoco_la_LDFLAGS = -module -avoid-version -no-undefined
+ libcoco_la_LIBADD = $(THEME_LIBS) 
+--- origsrc/mate-notification-daemon-1.4.0/src/themes/nodoka/Makefile.am	2012-07-05 13:29:58.000000000 -0500
++++ src/mate-notification-daemon-1.4.0/src/themes/nodoka/Makefile.am	2012-11-15 01:31:15.043039900 -0600
+@@ -5,5 +5,5 @@ engine_LTLIBRARIES = libnodoka.la
+ 
+ libnodoka_la_SOURCES = nodoka-theme.c
+ 
+-libnodoka_la_LDFLAGS = -module -avoid-version
++libnodoka_la_LDFLAGS = -module -avoid-version -no-undefined
+ libnodoka_la_LIBADD =  $(THEME_LIBS)
 --- origsrc/mate-notification-daemon-1.2.0/src/themes/slider/Makefile.am	2012-02-23 08:24:48.000000000 -0600
 +++ src/mate-notification-daemon-1.2.0/src/themes/slider/Makefile.am	2012-04-16 19:21:13.272589800 -0500
 @@ -7,7 +7,7 @@ AM_CPPFLAGS = $(THEME_CFLAGS)

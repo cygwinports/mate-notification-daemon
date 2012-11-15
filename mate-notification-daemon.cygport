@@ -1,5 +1,12 @@
 inherit mate
 
+NAME="mate-notification-daemon"
+VERSION=1.4.0
+RELEASE=1
+CATEGORY="MATE"
+SUMMARY="MATE notification daemon"
+DESCRIPTION="MATE is a fork of the GNOME 2 desktop. It provides an intuitive
+and attractive desktop to Linux users using traditional metaphors."
 
 PATCH_URI="1.2.0-gmodule.patch"
 
@@ -17,12 +24,5 @@ src_install() {
 	# but only one can run at a given time.  The supported solution is
 	# for none of them to register for DBus autostart, but leave the
 	# session manager to launch the service provider for the given desktop.
-	dodir /etc/xdg/autostart
-	cat > ${D}/etc/xdg/autostart/${PN}.desktop <<_EOF
-[Desktop Entry]
-Type=Application
-Name=MATE Notification Daemon
-Exec=mate-notification-daemon
-OnlyShowIn=MATE;
-_EOF
+	make_autostart_entry ${NAME} "${SUMMARY}" "OnlyShowIn=MATE;"
 }
