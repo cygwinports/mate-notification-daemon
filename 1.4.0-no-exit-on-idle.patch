@@ -1,5 +1,5 @@
---- origsrc/mate-notification-daemon-1.4.0/src/daemon/daemon.c	2012-07-05 13:29:58.000000000 -0500
-+++ src/mate-notification-daemon-1.4.0/src/daemon/daemon.c	2012-12-25 22:17:54.238694300 -0600
+--- origsrc/mate-notification-daemon-1.6.0/src/daemon/daemon.c	2013-03-31 17:06:44.000000000 -0500
++++ src/mate-notification-daemon-1.6.0/src/daemon/daemon.c	2013-04-04 04:52:54.506972300 -0500
 @@ -99,7 +99,6 @@ typedef struct {
  struct _NotifyDaemonPrivate {
  	guint next_id;
@@ -8,7 +8,7 @@
  	GHashTable* idle_reposition_notify_ids;
  	GHashTable* monitored_window_hash;
  	GHashTable* notification_hash;
-@@ -152,35 +151,6 @@ static void _notify_timeout_destroy(Noti
+@@ -150,35 +149,6 @@ static void _notify_timeout_destroy(Noti
  	g_free(nt);
  }
  
@@ -22,8 +22,8 @@
 -
 -static void add_exit_timeout(NotifyDaemon* daemon)
 -{
--    if (daemon->priv->exit_timeout_source > 0)
--    {
+-	if (daemon->priv->exit_timeout_source > 0)
+-	{
 -		return;
 -	}
 -
@@ -44,16 +44,16 @@
  static void create_stack_for_monitor(NotifyDaemon* daemon, GdkScreen* screen, int monitor_num)
  {
  	int screen_num = gdk_screen_get_number(screen);
-@@ -364,8 +334,6 @@ static void notify_daemon_init(NotifyDae
+@@ -359,8 +329,6 @@ static void notify_daemon_init(NotifyDae
  	daemon->priv->next_id = 1;
  	daemon->priv->timeout_source = 0;
  
 -	add_exit_timeout(daemon);
 -
- 	client = mateconf_client_get_default();
- 	mateconf_client_add_dir(client, MATECONF_KEY_DAEMON, MATECONF_CLIENT_PRELOAD_NONE, NULL);
+ 	daemon->gsettings = g_settings_new (GSETTINGS_SCHEMA);
  
-@@ -434,8 +402,6 @@ static void notify_daemon_finalize(GObje
+ 	location = g_settings_get_string (daemon->gsettings, GSETTINGS_KEY_POPUP_LOCATION);
+@@ -422,8 +390,6 @@ static void notify_daemon_finalize(GObje
  		gdk_window_remove_filter(NULL, (GdkFilterFunc) _notify_x11_filter, daemon);
  	}
  
@@ -62,7 +62,7 @@
  	g_hash_table_destroy(daemon->priv->monitored_window_hash);
  	g_hash_table_destroy(daemon->priv->idle_reposition_notify_ids);
  	g_hash_table_destroy(daemon->priv->notification_hash);
-@@ -533,11 +499,6 @@ static void _close_notification(NotifyDa
+@@ -521,11 +487,6 @@ static void _close_notification(NotifyDa
  		}
  
  		g_hash_table_remove(priv->notification_hash, &id);
@@ -74,7 +74,7 @@
  	}
  }
  
-@@ -755,11 +716,6 @@ static gboolean _check_expiration(Notify
+@@ -743,11 +704,6 @@ static gboolean _check_expiration(Notify
  	if (!has_more_timeouts)
  	{
  		daemon->priv->timeout_source = 0;
@@ -86,7 +86,7 @@
  	}
  
  	return has_more_timeouts;
-@@ -837,7 +793,6 @@ static NotifyTimeout* _store_notificatio
+@@ -825,7 +781,6 @@ static NotifyTimeout* _store_notificatio
  	_calculate_timeout(daemon, nt, timeout);
  
  	g_hash_table_insert(priv->notification_hash, g_memdup(&id, sizeof(guint)), nt);
