@@ -1,7 +1,7 @@
 inherit mate
 
 NAME="mate-notification-daemon"
-VERSION=1.6.0
+VERSION=1.6.1
 RELEASE=1
 CATEGORY="MATE"
 SUMMARY="MATE notification daemon"
@@ -11,8 +11,6 @@ and attractive desktop to Linux users using traditional metaphors."
 PATCH_URI="1.4.0-no-exit-on-idle.patch"
 
 DIFF_EXCLUDES="*.service"
-
-CYGCONF_ARGS="--libexecdir=/usr/bin"
 
 src_install() {
 	cd ${B}
